@@ -102,7 +102,7 @@ body {
     text-align: center;
     position: relative;
     overflow: hidden;
-    height: 65vh;
+    height: 55vh;
     display: flex;
     align-items: center;
 }
@@ -695,6 +695,6 @@ footer {
     }
     
     .hero h1 {
-        font-size: 2rem;
+        font-size: 1rem;
     }
 }
