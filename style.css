@@ -334,6 +334,8 @@ body {
 .about-image img {
     width: 100%;
     max-width: 300px;
+    height: auto; /* Add this */
+    object-fit: cover; /* Add this */
     border-radius: 1rem;
     box-shadow: var(--shadow-lg);
 }
@@ -473,6 +475,11 @@ footer {
         grid-template-columns: 1fr;
         text-align: center;
     }
+
+    .about-image {
+        order: -1; /* This puts image above text on mobile */
+        margin-bottom: 2rem;
+    }
     
     .contact-content {
         grid-template-columns: 1fr;
@@ -498,6 +505,11 @@ footer {
     
     .hero h1 {
         font-size: 2rem;
+    }
+
+    .about-image {
+        order: -1; /* This puts image above text on mobile */
+        margin-bottom: 2rem;
     }
     
     .sections {
