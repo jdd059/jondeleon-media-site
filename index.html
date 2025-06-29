@@ -131,7 +131,7 @@
                         </div>
                     </div>
                     <div class="about-image">
-                        <img src="jon-deleon-headshot.png" alt="Jon DeLeon">
+                        <img src="jon-deleon-headshot.jpg" alt="Jon DeLeon">
                     </div>
                 </div>
             </div>
@@ -180,18 +180,19 @@
                 <div class="section-divider"></div>
                 <p class="section-subtitle">48-hour standard delivery. 24-hour rush available.</p>
                 
-                <div class="contact-content">
+                <div class="contact-container">
                     <div class="contact-info">
                         <h3>Get in Touch</h3>
-                        <p><strong>Email:</strong> jondeleon@me.com</p>
                         <p><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/jddeleon">linkedin.com/in/jddeleon</a></p>
                         <p><strong>Response Time:</strong> Within 4 hours during business days</p>
                     </div>
                     
                     <form class="contact-form">
-                        <input type="text" name="name" placeholder="Your Name" required>
+                        <div class="form-row">
+                            <input type="text" name="name" placeholder="Your Name" required>
+                            <input type="text" name="company" placeholder="Company Name">
+                        </div>
                         <input type="email" name="email" placeholder="Email Address" required>
-                        <input type="text" name="company" placeholder="Company Name">
                         <select name="service" required>
                             <option value="">Select Service Package</option>
                             <option value="essential">Essential ($200)</option>
@@ -199,7 +200,7 @@
                             <option value="studio">Studio ($400-500)</option>
                             <option value="custom">Custom Project</option>
                         </select>
-                        <textarea name="message" placeholder="Project details and timeline" rows="5" required></textarea>
+                        <textarea name="message" placeholder="Project details, timeline, and any specific requirements..." rows="6" required></textarea>
                         <button type="submit" class="btn-primary">Send Message</button>
                     </form>
                 </div>

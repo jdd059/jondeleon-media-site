@@ -42,13 +42,13 @@ Service: ${data.service}
 Message:
 ${data.message}`;
     
-    const mailtoLink = `mailto:jondeleon@me.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    const mailtoLink = `mailto:jon@jondeleonmedia.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     
     // Open email client
     window.location.href = mailtoLink;
     
     // Show confirmation
-    alert('Thank you! Your email client should open with the message. If not, please email jondeleon@me.com directly.');
+    alert('Thank you! Your email client should open with the message. If not, please email jon@jondeleonmedia.com directly.');
     
     // Reset form
     this.reset();
