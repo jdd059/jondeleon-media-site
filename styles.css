@@ -93,12 +93,14 @@ body {
 
 /* Hero Section */
 .hero {
-    background: linear-gradient(135deg, rgba(37, 99, 235, 0.1) 0%, rgba(59, 130, 246, 0.05) 50%, rgba(147, 197, 253, 0.1) 100%), 
-                url('assets/images/JD-Media-LinkedIn-Banner.png') center/cover;
-    padding: 8rem 0 6rem;
+    background: linear-gradient(135deg, #1f2937 0%, #374151 50%, #4b5563 100%);
+    padding: 0;
     text-align: center;
     position: relative;
     overflow: hidden;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
 }
 
 .hero::before {
@@ -108,13 +110,14 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(255, 255, 255, 0.9);
+    background: linear-gradient(45deg, transparent 0%, rgba(37, 99, 235, 0.1) 50%, transparent 100%);
     z-index: 1;
 }
 
 .hero .container {
     position: relative;
     z-index: 2;
+    width: 100%;
 }
 
 .hero h1 {
@@ -122,11 +125,12 @@ body {
     font-weight: 800;
     margin-bottom: 1.5rem;
     line-height: 1.1;
+    color: white;
 }
 
 .hero-subtitle {
     font-size: 1.25rem;
-    color: var(--text-secondary);
+    color: #d1d5db;
     margin-bottom: 3rem;
     max-width: 600px;
     margin-left: auto;
@@ -148,13 +152,13 @@ body {
     display: block;
     font-size: 2rem;
     font-weight: 800;
-    color: var(--primary-color);
+    color: #60a5fa;
     margin-bottom: 0.5rem;
 }
 
 .stat span {
     font-size: 0.875rem;
-    color: var(--text-secondary);
+    color: #d1d5db;
     text-transform: uppercase;
     letter-spacing: 0.05em;
 }
@@ -583,6 +587,11 @@ footer {
         display: none;
     }
     
+    .hero {
+        min-height: 90vh;
+        padding: 2rem 0;
+    }
+    
     .hero h1 {
         font-size: 2.5rem;
     }
@@ -633,7 +642,8 @@ footer {
     }
     
     .hero {
-        padding: 6rem 0 4rem;
+        min-height: 85vh;
+        padding: 1rem 0;
     }
     
     .hero h1 {
