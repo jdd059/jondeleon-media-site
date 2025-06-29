@@ -99,64 +99,13 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// Mobile menu toggle (basic implementation)
+// Mobile menu toggle
 function toggleMobileMenu() {
     const navMenu = document.querySelector('.nav-menu');
     navMenu.classList.toggle('active');
 }
 
-// Add mobile menu styles dynamically for smaller screens
-const style = document.createElement('style');
-style.textContent = `
-    @media (max-width: 768px) {
-        .nav-menu {
-            position: fixed;
-            top: 70px;
-            left: -100%;
-            width: 100%;
-            height: calc(100vh - 70px);
-            background: var(--background);
-            flex-direction: column;
-            justify-content: flex-start;
-            align-items: center;
-            padding-top: 2rem;
-            transition: left 0.3s ease;
-            box-shadow: var(--shadow);
-        }
-        
-        .nav-menu.active {
-            left: 0;
-        }
-        
-        .nav-menu li {
-            margin: 1rem 0;
-        }
-        
-        .hamburger {
-            display: flex;
-            flex-direction: column;
-            cursor: pointer;
-            padding: 0.5rem;
-        }
-        
-        .hamburger span {
-            width: 25px;
-            height: 3px;
-            background: var(--text-primary);
-            margin: 3px 0;
-            transition: 0.3s;
-        }
-    }
-    
-    @media (min-width: 769px) {
-        .hamburger {
-            display: none;
-        }
-    }
-`;
-document.head.appendChild(style);
-
-// Add hamburger menu to navigation (for mobile)
+// Add hamburger menu to navigation
 document.addEventListener('DOMContentLoaded', function() {
     const navContainer = document.querySelector('.nav-container');
     const hamburger = document.createElement('div');
@@ -164,4 +113,13 @@ document.addEventListener('DOMContentLoaded', function() {
     hamburger.innerHTML = '<span></span><span></span><span></span>';
     hamburger.addEventListener('click', toggleMobileMenu);
     navContainer.appendChild(hamburger);
+    
+    // Close mobile menu when clicking nav links
+    const navLinks = document.querySelectorAll('.nav-menu a');
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            const navMenu = document.querySelector('.nav-menu');
+            navMenu.classList.remove('active');
+        });
+    });
 });
