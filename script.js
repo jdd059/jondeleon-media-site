@@ -13,46 +13,46 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 });
 
 // Contact form handling
-document.querySelector('.contact-form').addEventListener('submit', function(e) {
-    e.preventDefault();
+// document.querySelector('.contact-form').addEventListener('submit', function(e) {
+//     e.preventDefault();
     
-    // Get form data
-    const formData = new FormData(this);
-    const data = {
-        name: formData.get('name'),
-        email: formData.get('email'),
-        company: formData.get('company'),
-        service: formData.get('service'),
-        message: formData.get('message')
-    };
+//     // Get form data
+//     const formData = new FormData(this);
+//     const data = {
+//         name: formData.get('name'),
+//         email: formData.get('email'),
+//         company: formData.get('company'),
+//         service: formData.get('service'),
+//         message: formData.get('message')
+//     };
     
-    // Simple validation
-    if (!data.name || !data.email || !data.message || !data.service) {
-        alert('Please fill in all required fields.');
-        return;
-    }
+//     // Simple validation
+//     if (!data.name || !data.email || !data.message || !data.service) {
+//         alert('Please fill in all required fields.');
+//         return;
+//     }
     
-    // For now, create a mailto link (replace with actual form handling later)
-    const subject = `Audio Production Inquiry - ${data.service}`;
-    const body = `Name: ${data.name}
-Email: ${data.email}
-Company: ${data.company || 'Not specified'}
-Service: ${data.service}
+//     // For now, create a mailto link (replace with actual form handling later)
+//     const subject = `Audio Production Inquiry - ${data.service}`;
+//     const body = `Name: ${data.name}
+// Email: ${data.email}
+// Company: ${data.company || 'Not specified'}
+// Service: ${data.service}
 
-Message:
-${data.message}`;
+// Message:
+// ${data.message}`;
     
-    const mailtoLink = `mailto:jon@jondeleonmedia.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+//     const mailtoLink = `mailto:jon@jondeleonmedia.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     
-    // Open email client
-    window.location.href = mailtoLink;
+//     // Open email client
+//     window.location.href = mailtoLink;
     
-    // Show confirmation
-    alert('Thank you! Your email client should open with the message. If not, please email jon@jondeleonmedia.com directly.');
+//     // Show confirmation
+//     alert('Thank you! Your email client should open with the message. If not, please email jon@jondeleonmedia.com directly.');
     
-    // Reset form
-    this.reset();
-});
+//     // Reset form
+//     this.reset();
+// });
 
 // Navbar background on scroll
 window.addEventListener('scroll', function() {
