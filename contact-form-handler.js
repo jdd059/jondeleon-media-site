@@ -53,6 +53,10 @@ async function handleRequest(request) {
       })
     }
 
+    // Clean service name (remove pricing info)
+    const cleanServiceName = data.service.split(' (')[0]; // "Professional ($275-350)" becomes "Professional"
+    console.log('Clean service name:', cleanServiceName);
+
     // STEP 1: Create or find person in People DB
     console.log('Creating/finding person in People DB...');
     
@@ -118,8 +122,151 @@ async function handleRequest(request) {
       console.log('Created new person:', personId);
     }
 
-    // STEP 2: Create main CRM record with person relation
+    // STEP 2: Create or find organization
+    let organizationId = null;
+    if (data.company && data.company !== 'Not specified') {
+      console.log('Creating/finding organization...');
+      
+      // Check if organization exists
+      const orgSearch = await fetch(`https://api.notion.com/v1/databases/${ORGANIZATIONS_DB_ID}/query`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${NOTION_TOKEN}`,
+          'Notion-Version': '2022-06-28',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          filter: {
+            property: 'Name',
+            title: {
+              equals: data.company
+            }
+          }
+        })
+      })
+
+      if (orgSearch.ok) {
+        const existingOrgs = await orgSearch.json();
+        
+        if (existingOrgs.results && existingOrgs.results.length > 0) {
+          organizationId = existingOrgs.results[0].id;
+          console.log('Found existing organization:', organizationId);
+        } else {
+          // Create new organization
+          console.log('Creating new organization...');
+          const newOrg = await fetch('https://api.notion.com/v1/pages', {
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${NOTION_TOKEN}`,
+              'Notion-Version': '2022-06-28',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              parent: { database_id: ORGANIZATIONS_DB_ID },
+              properties: {
+                'Name': {
+                  title: [{ text: { content: data.company } }]
+                }
+              }
+            })
+          })
+
+          if (newOrg.ok) {
+            const orgData = await newOrg.json();
+            organizationId = orgData.id;
+            console.log('Created new organization:', organizationId);
+          } else {
+            console.error('Failed to create organization:', newOrg.status, await newOrg.text());
+          }
+        }
+      } else {
+        console.error('Organization search failed:', orgSearch.status, await orgSearch.text());
+      }
+    }
+
+    // STEP 3: Find service in Services DB
+    let serviceId = null;
+    console.log('Finding service in Services DB...');
+    
+    const serviceSearch = await fetch(`https://api.notion.com/v1/databases/${SERVICES_DB_ID}/query`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${NOTION_TOKEN}`,
+        'Notion-Version': '2022-06-28',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        filter: {
+          property: 'Name',
+          title: {
+            equals: cleanServiceName
+          }
+        }
+      })
+    })
+
+    if (serviceSearch.ok) {
+      const existingServices = await serviceSearch.json();
+      
+      if (existingServices.results && existingServices.results.length > 0) {
+        serviceId = existingServices.results[0].id;
+        console.log('Found existing service:', serviceId);
+      } else {
+        console.log('Service not found in database, will store as text');
+      }
+    } else {
+      console.error('Service search failed:', serviceSearch.status, await serviceSearch.text());
+    }
+
+    // STEP 4: Create main CRM record with relations
     console.log('Creating main CRM record...');
+    
+    // Build the title
+    const recordTitle = organizationId ? 
+      `${data.company} - ${data.name}` : 
+      data.name;
+
+    // Build properties object
+    const properties = {
+      'Name': {
+        title: [{ text: { content: recordTitle } }]
+      },
+      'Contact | Person': {
+        relation: [{ id: personId }]
+      },
+      'Notes': {
+        rich_text: [{
+          text: { 
+            content: `[${new Date().toLocaleDateString()}] Website Contact: ${data.message}`
+          }
+        }]
+      },
+      'Status': {
+        status: { name: 'New Lead' }
+      },
+      'Source': {
+        select: { name: 'Website Contact Form' }
+      }
+    };
+
+    // Add organization relation if we have one
+    if (organizationId) {
+      properties['Organization'] = {
+        relation: [{ id: organizationId }]
+      };
+    }
+
+    // Add service relation if found, otherwise store as text
+    if (serviceId) {
+      properties['Services'] = {
+        relation: [{ id: serviceId }]
+      };
+    } else {
+      properties['Service Interest'] = {
+        rich_text: [{ text: { content: data.service } }]
+      };
+    }
+
     const createResponse = await fetch('https://api.notion.com/v1/pages', {
       method: 'POST',
       headers: {
@@ -129,30 +276,7 @@ async function handleRequest(request) {
       },
       body: JSON.stringify({
         parent: { database_id: CLIENTS_DB_ID },
-        properties: {
-          'Contact | Person': {
-            relation: [{ id: personId }]
-          },
-          'Company Name': {
-            rich_text: [{ text: { content: data.company } }]
-          },
-          'Service Interest': {
-            rich_text: [{ text: { content: data.service } }]
-          },
-          'Notes': {
-            rich_text: [{
-              text: { 
-                content: `[${new Date().toLocaleDateString()}] Website Contact: ${data.message}`
-              }
-            }]
-          },
-          'Status': {
-            status: { name: 'New Lead' }
-          },
-          'Source': {
-            select: { name: 'Website Contact Form' }
-          }
-        }
+        properties: properties
       })
     })
     
@@ -163,18 +287,22 @@ async function handleRequest(request) {
     
     console.log('Successfully created CRM record');
 
-    // STEP 3: Send backup email notification
+    // STEP 5: Send backup email using MailChannels
     console.log('Sending backup email...');
     try {
-      const emailResponse = await fetch('https://api.cloudflare.com/client/v4/accounts/' + CLOUDFLARE_ACCOUNT_ID + '/email/routing/addresses/' + encodeURIComponent('noreply@jondeleonmedia.com') + '/send', {
+      const emailResponse = await fetch('https://api.mailchannels.net/tx/v1/send', {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${CLOUDFLARE_API_TOKEN}`,
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          to: [{ email: NOTIFICATION_EMAIL, name: 'Jon DeLeon' }]
-          from: { email: 'noreply@jondeleonmedia.com', name: 'Jon DeLeon Media Website' },
+          personalizations: [{
+            to: [{ email: NOTIFICATION_EMAIL, name: 'Jon DeLeon' }]
+          }],
+          from: {
+            email: 'noreply@jondeleonmedia.com',
+            name: 'Jon DeLeon Media Website'
+          },
           subject: 'New Website Contact Form Submission',
           content: [{
             type: 'text/plain',
@@ -187,9 +315,11 @@ Service Package: ${data.service}
 Message: ${data.message}
 
 Submitted: ${new Date().toLocaleString('en-US', { timeZone: 'America/New_York' })}
-Person ID in Notion: ${personId}
 
-This submission has been automatically saved to your Notion CRM.`
+This submission has been automatically saved to your Notion CRM with proper relations.
+
+---
+Sent automatically from jondeleonmedia.com contact form`
           }]
         })
       });
