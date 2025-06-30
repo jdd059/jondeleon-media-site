@@ -281,6 +281,9 @@ body {
     border: 2px solid var(--border-color);
     flex: 0 1 300px;
     max-width: 320px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .service-card:hover {
@@ -325,6 +328,7 @@ body {
     list-style: none;
     margin-bottom: 2rem;
     text-align: left;
+    flex-grow: 1;
 }
 
 .service-card li {
