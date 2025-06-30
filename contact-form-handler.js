@@ -128,7 +128,7 @@ async function handleRequest(request) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        parent: { database_id: NOTION_DATABASE_ID },
+        parent: { database_id: CLIENTS_DB_ID },
         properties: {
           'Contact | Person': {
             relation: [{ id: personId }]
