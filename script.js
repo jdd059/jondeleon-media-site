@@ -54,6 +54,31 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 //     this.reset();
 // });
 
+// Contact form handling with popup
+document.querySelector('.contact-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(this);
+    
+    try {
+        const response = await fetch(this.action, {
+            method: 'POST',
+            body: formData
+        });
+        
+        if (response.ok) {
+            alert('Thank you! Your message has been sent. I\'ll respond within 4 hours during business days.');
+            this.reset(); // Clear the form
+        } else {
+            alert('There was an error sending your message. Please try again or contact me on LinkedIn: linkedin.com/in/jddeleon');
+        }
+    } catch (error) {
+        console.error('Form submission error:', error);
+        alert('There was an error sending your message. Please try again or contact me on LinkedIn: linkedin.com/in/jddeleon');
+    }
+});
+
+
 // Navbar background on scroll
 window.addEventListener('scroll', function() {
     const nav = document.querySelector('.nav');
