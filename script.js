@@ -70,27 +70,42 @@ document.querySelector('.contact-form').addEventListener('submit', async functio
     const formData = new FormData(this);
     
     try {
-    const response = await fetch(this.action, {
-        method: 'POST',
-        body: formData
-    });
-    
-    if (response.ok) {
-        // Success modal
-        const modal = document.createElement('div');
-        modal.innerHTML = `
-          <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 10000; display: flex; align-items: center; justify-content: center;">
-            <div style="background: white; padding: 2rem; border-radius: 8px; max-width: 400px; text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
-              <h3 style="margin: 0 0 1rem 0; color: #2563eb;">Thank you!</h3>
-              <p style="margin: 0 0 1.5rem 0; color: #374151;">Your message has been sent. I'll respond within 4 hours during business days.</p>
-              <button onclick="this.closest('div').parentElement.remove()" style="padding: 0.75rem 1.5rem; background: #2563eb; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 600;">OK</button>
-            </div>
-          </div>
-        `;
-        document.body.appendChild(modal);
-        this.reset(); // Clear the form
-    } else {
-        // Error modal
+        const response = await fetch(this.action, {
+            method: 'POST',
+            body: formData
+        });
+        
+        if (response.ok) {
+            // Success modal
+            const modal = document.createElement('div');
+            modal.innerHTML = `
+              <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 10000; display: flex; align-items: center; justify-content: center;">
+                <div style="background: white; padding: 2rem; border-radius: 8px; max-width: 400px; text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
+                  <h3 style="margin: 0 0 1rem 0; color: #2563eb;">Thank you!</h3>
+                  <p style="margin: 0 0 1.5rem 0; color: #374151;">Your message has been sent. I'll respond within 4 hours during business days.</p>
+                  <button onclick="this.closest('div').parentElement.remove()" style="padding: 0.75rem 1.5rem; background: #2563eb; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 600;">OK</button>
+                </div>
+              </div>
+            `;
+            document.body.appendChild(modal);
+            this.reset(); // Clear the form
+        } else {
+            // Error modal
+            const modal = document.createElement('div');
+            modal.innerHTML = `
+              <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 10000; display: flex; align-items: center; justify-content: center;">
+                <div style="background: white; padding: 2rem; border-radius: 8px; max-width: 400px; text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
+                  <h3 style="margin: 0 0 1rem 0; color: #dc2626;">Error</h3>
+                  <p style="margin: 0 0 1.5rem 0; color: #374151;">There was an error sending your message. Please try again or contact me on LinkedIn: <a href="https://linkedin.com/in/jddeleon" target="_blank" style="color: #2563eb;">linkedin.com/in/jddeleon</a></p>
+                  <button onclick="this.closest('div').parentElement.remove()" style="padding: 0.75rem 1.5rem; background: #dc2626; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 600;">OK</button>
+                </div>
+              </div>
+            `;
+            document.body.appendChild(modal);
+        }
+    } catch (error) {
+        console.error('Form submission error:', error);
+        // Same error modal as above
         const modal = document.createElement('div');
         modal.innerHTML = `
           <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 10000; display: flex; align-items: center; justify-content: center;">
@@ -103,21 +118,7 @@ document.querySelector('.contact-form').addEventListener('submit', async functio
         `;
         document.body.appendChild(modal);
     }
-} catch (error) {
-    console.error('Form submission error:', error);
-    // Same error modal as above
-    const modal = document.createElement('div');
-    modal.innerHTML = `
-      <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 10000; display: flex; align-items: center; justify-content: center;">
-        <div style="background: white; padding: 2rem; border-radius: 8px; max-width: 400px; text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
-          <h3 style="margin: 0 0 1rem 0; color: #dc2626;">Error</h3>
-          <p style="margin: 0 0 1.5rem 0; color: #374151;">There was an error sending your message. Please try again or contact me on LinkedIn: <a href="https://linkedin.com/in/jddeleon" target="_blank" style="color: #2563eb;">linkedin.com/in/jddeleon</a></p>
-          <button onclick="this.closest('div').parentElement.remove()" style="padding: 0.75rem 1.5rem; background: #dc2626; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 600;">OK</button>
-        </div>
-      </div>
-    `;
-    document.body.appendChild(modal);
-}
+});
 
 // Navbar background on scroll
 window.addEventListener('scroll', function() {
