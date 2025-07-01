@@ -54,7 +54,7 @@ async function handleRequest(request) {
     }
 
     // Clean service name (remove pricing info)
-    const cleanServiceName = data.service.split(' (')[0]; // "Professional ($275-350)" becomes "Professional"
+    const cleanServiceName = data.service.replace(/ \([^)]*\)$/, '').trim();
     console.log('Clean service name:', cleanServiceName);
 
     // STEP 1: Create or find person in People DB
