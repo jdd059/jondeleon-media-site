@@ -223,7 +223,7 @@ async function handleRequest(request) {
     
     // Build the title
     const recordTitle = organizationId ? 
-      `${data.company} - ${data.name}` : 
+      `${data.company} | ${data.name}` : 
       data.name;
 
     // Build properties object
