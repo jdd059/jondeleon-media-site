@@ -1,3 +1,54 @@
+// AUTO-UPDATING EXPERIENCE YEARS CALCULATOR
+// Calculate years of experience since September 2016
+function updateExperienceYears() {
+    const startDate = new Date('2016-09-01'); // September 1, 2016 - adjust if needed
+    const currentDate = new Date();
+    const millisecondsPerYear = 365.25 * 24 * 60 * 60 * 1000; // Accounts for leap years
+    const yearsDiff = Math.floor((currentDate - startDate) / millisecondsPerYear);
+    
+    // Update the HTML element with id="years-experience"
+    const experienceElement = document.getElementById('years-experience');
+    if (experienceElement) {
+        experienceElement.textContent = yearsDiff + '+ Years Experience';
+    }
+}
+
+// TOOLS SECTION FADE-IN ANIMATION
+// This creates a fade-in effect for tool items as they come into view
+function initToolsAnimation() {
+    const toolItems = document.querySelectorAll('.tool-item');
+    
+    // Set initial opacity to 0 for animation
+    toolItems.forEach(item => {
+        item.style.opacity = '0';
+        item.style.transform = 'translateY(20px)';
+        item.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    });
+    
+    // Create intersection observer to trigger animation when tools come into view
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry, index) => {
+            if (entry.isIntersecting) {
+                // Add delay for staggered effect
+                setTimeout(() => {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }, index * 100); // 100ms delay between each item
+                
+                // Stop observing once animated
+                observer.unobserve(entry.target);
+            }
+        });
+    }, {
+        threshold: 0.1 // Trigger when 10% of element is visible
+    });
+    
+    // Start observing each tool item
+    toolItems.forEach(item => {
+        observer.observe(item);
+    });
+}
+
 // Smooth scrolling for navigation links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
@@ -11,48 +62,6 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         }
     });
 });
-
-// Contact form handling
-// document.querySelector('.contact-form').addEventListener('submit', function(e) {
-//     e.preventDefault();
-    
-//     // Get form data
-//     const formData = new FormData(this);
-//     const data = {
-//         name: formData.get('name'),
-//         email: formData.get('email'),
-//         company: formData.get('company'),
-//         service: formData.get('service'),
-//         message: formData.get('message')
-//     };
-    
-//     // Simple validation
-//     if (!data.name || !data.email || !data.message || !data.service) {
-//         alert('Please fill in all required fields.');
-//         return;
-//     }
-    
-//     // For now, create a mailto link (replace with actual form handling later)
-//     const subject = `Audio Production Inquiry - ${data.service}`;
-//     const body = `Name: ${data.name}
-// Email: ${data.email}
-// Company: ${data.company || 'Not specified'}
-// Service: ${data.service}
-
-// Message:
-// ${data.message}`;
-    
-//     const mailtoLink = `mailto:jon@jondeleonmedia.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    
-//     // Open email client
-//     window.location.href = mailtoLink;
-    
-//     // Show confirmation
-//     alert('Thank you! Your email client should open with the message. If not, please email jon@jondeleonmedia.com directly.');
-    
-//     // Reset form
-//     this.reset();
-// });
 
 // Contact form handling with popup
 document.querySelector('.contact-form').addEventListener('submit', async function(e) {
@@ -77,7 +86,6 @@ document.querySelector('.contact-form').addEventListener('submit', async functio
         alert('There was an error sending your message. Please try again or contact me on LinkedIn: linkedin.com/in/jddeleon');
     }
 });
-
 
 // Navbar background on scroll
 window.addEventListener('scroll', function() {
@@ -106,8 +114,19 @@ const observer = new IntersectionObserver((entries) => {
     });
 }, observerOptions);
 
-// Observe all sections for scroll animations
+// Mobile menu toggle
+function toggleMobileMenu() {
+    const navMenu = document.querySelector('.nav-menu');
+    navMenu.classList.toggle('active');
+}
+
+// DOM Content Loaded - Initialize everything
 document.addEventListener('DOMContentLoaded', function() {
+    // Initialize auto-updating years and tools animation
+    updateExperienceYears();
+    initToolsAnimation();
+    
+    // Observe all sections for scroll animations
     const sections = document.querySelectorAll('section');
     sections.forEach(section => {
         section.style.opacity = '0';
@@ -122,16 +141,8 @@ document.addEventListener('DOMContentLoaded', function() {
         hero.style.opacity = '1';
         hero.style.transform = 'translateY(0)';
     }
-});
-
-// Mobile menu toggle
-function toggleMobileMenu() {
-    const navMenu = document.querySelector('.nav-menu');
-    navMenu.classList.toggle('active');
-}
-
-// Add hamburger menu to navigation
-document.addEventListener('DOMContentLoaded', function() {
+    
+    // Add hamburger menu to navigation
     const navContainer = document.querySelector('.nav-container');
     const hamburger = document.createElement('div');
     hamburger.className = 'hamburger';
@@ -147,4 +158,69 @@ document.addEventListener('DOMContentLoaded', function() {
             navMenu.classList.remove('active');
         });
     });
+});// AUTO-UPDATING EXPERIENCE YEARS CALCULATOR
+// Place this code in your existing script.js file, preferably near the top
+// or in a DOMContentLoaded event listener to ensure it runs after the page loads
+
+// Calculate years of experience since September 2016
+function updateExperienceYears() {
+    const startDate = new Date('2016-09-01'); // September 1, 2016 - adjust if needed
+    const currentDate = new Date();
+    const millisecondsPerYear = 365.25 * 24 * 60 * 60 * 1000; // Accounts for leap years
+    const yearsDiff = Math.floor((currentDate - startDate) / millisecondsPerYear);
+    
+    // Update the HTML element with id="years-experience"
+    const experienceElement = document.getElementById('years-experience');
+    if (experienceElement) {
+        experienceElement.textContent = yearsDiff + '+ Years Experience';
+    }
+}
+
+// TOOLS SECTION FADE-IN ANIMATION
+// This creates a fade-in effect for tool items as they come into view
+function initToolsAnimation() {
+    const toolItems = document.querySelectorAll('.tool-item');
+    
+    // Set initial opacity to 0 for animation
+    toolItems.forEach(item => {
+        item.style.opacity = '0';
+        item.style.transform = 'translateY(20px)';
+        item.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    });
+    
+    // Create intersection observer to trigger animation when tools come into view
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry, index) => {
+            if (entry.isIntersecting) {
+                // Add delay for staggered effect
+                setTimeout(() => {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }, index * 100); // 100ms delay between each item
+                
+                // Stop observing once animated
+                observer.unobserve(entry.target);
+            }
+        });
+    }, {
+        threshold: 0.1 // Trigger when 10% of element is visible
+    });
+    
+    // Start observing each tool item
+    toolItems.forEach(item => {
+        observer.observe(item);
+    });
+}
+
+// Run functions when the page loads
+document.addEventListener('DOMContentLoaded', function() {
+    updateExperienceYears();
+    initToolsAnimation();
 });
+
+// Alternative: If you don't use DOMContentLoaded, you can just call the functions
+// at the bottom of your script.js file or wrap them in a window.onload
+// window.onload = function() {
+//     updateExperienceYears();
+//     initToolsAnimation();
+// };
