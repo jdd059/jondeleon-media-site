@@ -252,8 +252,8 @@ async function handleRequest(request) {
       },
       'Priority': {
         select: { 
-          name: data.service.includes('Producer') || data.service.includes('custom') ? 'High' : 
-                data.service.includes('Studio') ? 'Medium' : 'Low'
+          name: data.service.includes('producer') || data.service.includes('custom') ? 'High' : 
+                data.service.includes('studio') ? 'Medium' : 'Low'
         }
       },
       'Follow Up Due': {
