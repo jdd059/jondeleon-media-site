@@ -191,4 +191,24 @@ document.addEventListener('DOMContentLoaded', function() {
             navMenu.classList.remove('active');
         });
     });
+
+    // Back to top button functionality
+    const backToTopBtn = document.getElementById('back-to-top');
+    
+    if (backToTopBtn) {
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 300) {
+                backToTopBtn.classList.add('visible');
+            } else {
+                backToTopBtn.classList.remove('visible');
+            }
+        });
+
+        backToTopBtn.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    }
 });

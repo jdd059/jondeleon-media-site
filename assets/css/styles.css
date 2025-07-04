@@ -141,6 +141,11 @@ body {
     max-width: 1200px;
     margin: 0 auto;
 }
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
 
 .logo h1 {
     font-size: 1.5rem;
@@ -153,17 +158,24 @@ body {
 }
 
 .logo-icon {
+    display: inline-block;
     width: 40px;
     height: 40px;
-    background-image: url('assets/images/JD-Media-Logo.png');
+    background-image: url('/assets/images/Jon-DeLeon-Media-Logo.svg');
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
+    vertical-align: middle;
 }
 
 .logo span {
-    font-size: 0.875rem;
-    color: var(--text-secondary);
+    font-size: 0.75rem;
+    color: var(--text-secondary); /* Change to gray instead of blue */
+    font-weight: 400; /* Much lighter weight */
+    text-transform: none; /* Remove uppercase */
+    letter-spacing: 0.05em; /* Less letter spacing */
+    margin-top: 0.25rem; /* Add some space above */
+    white-space: nowrap;
 }
 
 .nav-menu {
@@ -316,6 +328,61 @@ body {
     background: var(--secondary-color);
 }
 
+/* How I Help Section */
+.how-i-help {
+    padding: 4rem 0;
+    background: var(--background);
+}
+
+.how-i-help h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 3rem;
+}
+
+.help-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3rem;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.help-item {
+    text-align: center;
+}
+
+.help-icon {
+    width: 80px;
+    height: 80px;
+    background: var(--primary-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem auto;
+}
+
+.help-icon img {
+    width: 40px;
+    height: 40px;
+    filter: brightness(0) invert(1);
+}
+
+.help-item h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+}
+
+.help-item p {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
 /* Services Section */
 .services {
     padding: 6rem 0;
@@ -327,6 +394,14 @@ body {
     font-size: 2.5rem;
     font-weight: 700;
     margin-bottom: 1rem;
+}
+
+.service-subtitle {
+    font-style: italic;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    margin-bottom: 2rem;
+    line-height: 1.4;
 }
 
 .section-subtitle {
@@ -425,6 +500,10 @@ body {
     font-weight: bold;
 }
 
+.service-card li:last-child {
+    border-bottom: none;
+}
+
 /* SERVICES SECTION UPDATE */
 .services-note {
     text-align: center;
@@ -434,23 +513,24 @@ body {
     font-size: 14px;
 }
 
-/* TOOLS SECTION STYLES */
-
+/* Tools Section */
 .tools {
-    padding: 80px 0;
-    background-color: #f8f9fa; /* Light background to distinguish from other sections */
+    padding: 4rem 0;
+    background-color: var(--background);
 }
 
 .tools h2 {
     text-align: center;
-    margin-bottom: 60px;
+    margin-bottom: 3rem;
+    font-size: 2.5rem;
+    font-weight: 700;
 }
 
 .tools-list {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    max-width: 400px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    max-width: 600px;
     margin: 0 auto;
 }
 
@@ -458,15 +538,21 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 12px 0;
-    font-size: 16px;
+    padding: 0.5rem 0;
+    font-size: 1rem;
     font-weight: 500;
     color: #333;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
 }
 
 /* About Section */
 .about {
-    padding: 6rem 0;
+    padding: 6rem 0 0 0;
     background: var(--background);
 }
 
@@ -478,6 +564,35 @@ body {
     margin-bottom: 1rem !important;
     flex-direction: row !important;
     text-align: left !important;
+}
+
+/* Back to Top Button */
+.back-to-top {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 50px;
+    height: 50px;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.back-to-top.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.back-to-top:hover {
+    background: var(--secondary-color);
+    transform: translateY(-2px);
 }
 
 @media (min-width: 769px) {
@@ -627,7 +742,7 @@ body {
 /* Contact Section */
 .contact {
     padding: 6rem 0;
-    background: var(--background-light);
+    background: var(--background);
 }
 
 .contact h2 {
@@ -772,6 +887,18 @@ footer {
     .hamburger {
         display: flex;
     }
+    .logo {
+        gap: 0.5rem; /* Tighter spacing */
+    }
+    
+    .logo h1 {
+        font-size: 1.2rem; /* Smaller company name */
+    }
+    
+    .logo span {
+        font-size: 0.65rem; /* Smaller tagline */
+        white-space: nowrap;
+    }
     
     .nav-menu {
         position: fixed;
@@ -887,13 +1014,82 @@ footer {
     .tool-item {
         font-size: 15px;
     }
+
+    .help-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
 }
+
+
+/* Testimonials Section */
+.testimonials {
+    padding: 4rem 0;
+    background: var(--background-light);
+}
+
+.testimonials h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.testimonial-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.testimonial-item {
+    background: var(--background);
+    padding: 2rem 1.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 8px 25px -8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    position: relative;
+    border: 2px solid var(--border-color);
+}
+
+.quote-mark {
+    font-size: 2rem;
+    color: var(--primary-color);
+    line-height: 1;
+    margin-bottom: 1rem;
+    font-family: serif;
+}
+
+.testimonial-text {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+    font-style: italic;
+    line-height: 1.6;
+}
+
+.testimonial-author {
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 0.875rem;
+}
+
 
 @media (max-width: 480px) {
     .container {
         padding: 0 18px;
     }
+    .logo h1 {
+        font-size: 1rem;
+    }
     
+    .logo span {
+        font-size: 0.6rem;
+    }
+
    .hero {
         min-height: 95vh;
         padding: calc(70px + 2.5rem) 10vw 2.5rem 10vw !important;
@@ -927,4 +1123,16 @@ footer {
         align-items: center;
         gap: 1rem;
     }
+
+    .testimonial-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        padding: 0 1rem;
+    }
+
+    .testimonial-item {
+        padding: 1.5rem 1rem;
+    }
+
 }
+
