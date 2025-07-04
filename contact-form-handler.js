@@ -246,6 +246,20 @@ async function handleRequest(request) {
       },
       'Source': {
         select: { name: 'Website Contact Form' }
+      },
+      'Needs Follow Up': {
+        checkbox: true
+      },
+      'Priority': {
+        select: { 
+          name: data.service.includes('Producer') || data.service.includes('custom') ? 'High' : 
+                data.service.includes('Studio') ? 'Medium' : 'Low'
+        }
+      },
+      'Follow Up Due': {
+        date: { 
+          start: new Date(Date.now() + (4 * 60 * 60 * 1000)).toISOString().split('T')[0]
+        }
       }
     };
 
