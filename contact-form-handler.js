@@ -258,7 +258,7 @@ async function handleRequest(request) {
       },
       'Follow Up Due': {
         date: { 
-          start: new Date(Date.now() + (4 * 60 * 60 * 1000)).toISOString().split('T')[0]
+          start: new Date(Date.now() + (4 * 60 * 60 * 1000)).toISOString() // 4 hours from now with time
         }
       }
     };
@@ -302,25 +302,19 @@ async function handleRequest(request) {
     console.log('Successfully created CRM record');
 
     // STEP 5: Send backup email using MailChannels
-    console.log('Sending backup email...');
+    console.log('Sending backup email via Resend...');
     try {
-      const emailResponse = await fetch('https://api.mailchannels.net/tx/v1/send', {
+      const emailResponse = await fetch('https://api.resend.com/emails', {
         method: 'POST',
         headers: {
+          'Authorization': `Bearer ${RESEND_API_KEY}`,
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          personalizations: [{
-            to: [{ email: NOTIFICATION_EMAIL, name: 'Jon DeLeon' }]
-          }],
-          from: {
-            email: 'noreply@jondeleonmedia.com',
-            name: 'Jon DeLeon Media Website'
-          },
+          from: 'notifications@mail.jondeleonmedia.com',
+          to: [NOTIFICATION_EMAIL],
           subject: 'New Website Contact Form Submission',
-          content: [{
-            type: 'text/plain',
-            value: `New contact form submission received:
+          text: `New contact form submission received:
 
 Name: ${data.name}
 Email: ${data.email}
@@ -330,18 +324,19 @@ Message: ${data.message}
 
 Submitted: ${new Date().toLocaleString('en-US', { timeZone: 'America/New_York' })}
 
-This submission has been automatically saved to your Notion CRM with proper relations.
+This submission has been automatically saved to your Notion CRM.
 
 ---
 Sent automatically from jondeleonmedia.com contact form`
-          }]
         })
       });
 
+      const responseData = await emailResponse.text();
+      
       if (emailResponse.ok) {
-        console.log('Backup email sent successfully');
+        console.log('Backup email sent successfully via Resend');
       } else {
-        console.error('Failed to send backup email:', emailResponse.status, await emailResponse.text());
+        console.error('Failed to send backup email:', emailResponse.status, responseData);
         // Don't fail the whole request if email fails
       }
     } catch (emailError) {
@@ -357,9 +352,8 @@ Sent automatically from jondeleonmedia.com contact form`
         'Access-Control-Allow-Origin': '*',
         'Content-Type': 'text/plain'
       }
-    })
-
-  } catch (error) {
+    }) 
+    } catch (error) {
     console.error('Error processing form:', error);
     return new Response('Internal server error', { 
       status: 500,
@@ -368,4 +362,4 @@ Sent automatically from jondeleonmedia.com contact form`
       }
     })
   }
-}
+}  
