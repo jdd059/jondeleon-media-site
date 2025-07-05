@@ -313,21 +313,25 @@ async function handleRequest(request) {
         body: JSON.stringify({
           from: 'notifications@mail.jondeleonmedia.com',
           to: [NOTIFICATION_EMAIL],
-          subject: 'New Website Contact Form Submission',
-          text: `New contact form submission received:
+          subject: 'New Client Inquiry - Jon DeLeon Media',
+          text: `Hi Jon,
 
-Name: ${data.name}
-Email: ${data.email}
-Company: ${data.company}
-Service Package: ${data.service}
-Message: ${data.message}
+            You have a new client inquiry through your website:
 
-Submitted: ${new Date().toLocaleString('en-US', { timeZone: 'America/New_York' })}
+            Name: ${data.name}
+            Email: ${data.email}
+            Company: ${data.company}
+            Service Interest: ${data.service}
 
-This submission has been automatically saved to your Notion CRM.
+            Their message:
+            "${data.message}"
 
----
-Sent automatically from jondeleonmedia.com contact form`
+            Submitted: ${new Date().toLocaleString('en-US', { timeZone: 'America/New_York' })}
+
+            This inquiry has been saved to your Notion CRM for follow-up.
+
+            Cheers,
+            Your Website`
         })
       });
 
