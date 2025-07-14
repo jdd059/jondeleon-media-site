@@ -3,53 +3,32 @@ addEventListener('fetch', event => {
 })
 
 function isSpamSubmission(data) {
-  const spamIndicators = [
-    // Very long random Gmail patterns (20+ chars, likely generated)
-    /^[a-z0-9]{20,}@gmail\.com$/i,
-    // Obvious random patterns (letters followed by many numbers)
-    /^[a-z]{3,}[0-9]{8,}@gmail\.com$/i,
-    // Common spam domains
-    /@(tempmail|guerrillamail|10minutemail|mailinator|yopmail|throwaway)/i,
-    // Obvious spam usernames
-    /^(test|spam|admin|info|contact|support|sales|marketing)\d*@/i,
-    // All numbers username (6+ digits)
-    /^\d{6,}@/i
-  ];
+  // Only block obvious spam - be very conservative
   
-  // Check email patterns
-  for (const pattern of spamIndicators) {
-    if (pattern.test(data.email)) {
-      console.log('Spam detected: suspicious email pattern');
-      return true;
-    }
-  }
-  
-  // Check for empty or very short messages
-  if (!data.message || data.message.length < 10) {
-    console.log('Spam detected: message too short');
+  // Check for completely empty messages
+  if (!data.message || data.message.trim().length === 0) {
+    console.log('Spam detected: empty message');
     return true;
   }
   
-  // Check for spam keywords in message
-  const spamKeywords = [
-    'crypto', 'bitcoin', 'investment', 'loan', 'seo services', 'web design', 
-    'marketing services', 'increase sales', 'boost ranking', 'free trial',
-    'limited time', 'act now', 'congratulations', 'winner', 'claim now'
-  ];
+  // Check for obvious spam domains only
+  const spamDomains = /@(tempmail|guerrillamail|10minutemail|mailinator|yopmail|throwaway)/i;
+  if (spamDomains.test(data.email)) {
+    console.log('Spam detected: temporary email domain');
+    return true;
+  }
+  
+  // Check for very obvious spam keywords (only the worst ones)
+  const spamKeywords = ['crypto investment', 'bitcoin profit', 'guaranteed returns', 'act now limited time'];
   const messageText = data.message.toLowerCase();
   
-  const hasSpamKeywords = spamKeywords.some(keyword => messageText.includes(keyword));
-  if (hasSpamKeywords) {
-    console.log('Spam detected: spam keywords found');
+  const hasObviousSpam = spamKeywords.some(keyword => messageText.includes(keyword));
+  if (hasObviousSpam) {
+    console.log('Spam detected: obvious spam keywords');
     return true;
   }
   
-  // Check for suspicious name patterns
-  if (data.name && (/^[a-z]+\d+$/i.test(data.name) || data.name.length < 2)) {
-    console.log('Spam detected: suspicious name pattern');
-    return true;
-  }
-  
+  // That's it - much more conservative
   return false;
 }
 
@@ -249,10 +228,10 @@ async function handleRequest(request) {
                 email: data.email
               },
               'Space': {
-                relation: [{ id: 'º Jon DeLeon Media' }]  // Add Space relation
+                relation: [{ id: JON_DELEON_MEDIA_SPACE_ID }]
               },
               '+ Biz Summary DB': {
-                relation: [{ id: 'Stats' }]  // Add Biz Summary relation
+                relation: [{ id: STATS_PAGE_ID }]
               }
             }
           })
@@ -314,10 +293,10 @@ async function handleRequest(request) {
                     title: [{ text: { content: data.company } }]
                   },
                   'Space': {
-                    relation: [{ id: JON_DELEON_MEDIA_SPACE_ID }]  // Add Space relation
+                    relation: [{ id: JON_DELEON_MEDIA_SPACE_ID }]
                   },
                   '+ Biz Summary DB': {
-                    relation: [{ id: 'Stats' }]  // Add Biz Summary relation
+                    relation: [{ id: STATS_PAGE_ID }]
                   }
                 }
               })
@@ -410,11 +389,14 @@ async function handleRequest(request) {
         },
         'Follow Up Due': {
           date: { 
-            start: new Date(Date.now() + (4 * 60 * 60 * 1000)).toISOString() // 4 hours from now with time
+            start: new Date(Date.now() + (4 * 60 * 60 * 1000)).toISOString()
           }
         },
+        'Space': {
+          relation: [{ id: JON_DELEON_MEDIA_SPACE_ID }]
+        },
         '+ Biz Summary DB': {
-          relation: [{ id: 'Stats' }]  // Add Biz Summary relation
+          relation: [{ id: STATS_PAGE_ID }]
         }
       };
 
