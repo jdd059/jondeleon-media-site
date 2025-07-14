@@ -245,6 +245,12 @@ async function handleRequest(request) {
               },
               'Email': {
                 email: data.email
+              },
+              'Space': {
+                relation: [{ id: 'º Jon DeLeon Media' }]  // Add Space relation
+              },
+              '+ Biz Summary DB': {
+                relation: [{ id: 'Stats' }]  // Add Biz Summary relation
               }
             }
           })
@@ -304,6 +310,12 @@ async function handleRequest(request) {
                 properties: {
                   'Name': {
                     title: [{ text: { content: data.company } }]
+                  },
+                  'Space': {
+                    relation: [{ id: 'º Jon DeLeon Media' }]  // Add Space relation
+                  },
+                  '+ Biz Summary DB': {
+                    relation: [{ id: 'Stats' }]  // Add Biz Summary relation
                   }
                 }
               })
