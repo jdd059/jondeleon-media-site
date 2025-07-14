@@ -2,6 +2,55 @@ addEventListener('fetch', event => {
   event.respondWith(handleRequest(event.request))
 })
 
+function isSpamSubmission(data) {
+  const spamIndicators = [
+    // Random Gmail patterns (long random strings)
+    /^[a-z0-9]{10,}@gmail\.com$/i,
+    // Common spam domains
+    /@(tempmail|guerrillamail|10minutemail|mailinator|yopmail|throwaway)/i,
+    // Obvious spam usernames
+    /^(test|spam|admin|info|contact|support|sales|marketing)\d*@/i,
+    // All numbers username
+    /^\d+@/i
+  ];
+  
+  // Check email patterns
+  for (const pattern of spamIndicators) {
+    if (pattern.test(data.email)) {
+      console.log('Spam detected: suspicious email pattern');
+      return true;
+    }
+  }
+  
+  // Check for empty or very short messages
+  if (!data.message || data.message.length < 10) {
+    console.log('Spam detected: message too short');
+    return true;
+  }
+  
+  // Check for spam keywords in message
+  const spamKeywords = [
+    'crypto', 'bitcoin', 'investment', 'loan', 'seo services', 'web design', 
+    'marketing services', 'increase sales', 'boost ranking', 'free trial',
+    'limited time', 'act now', 'congratulations', 'winner', 'claim now'
+  ];
+  const messageText = data.message.toLowerCase();
+  
+  const hasSpamKeywords = spamKeywords.some(keyword => messageText.includes(keyword));
+  if (hasSpamKeywords) {
+    console.log('Spam detected: spam keywords found');
+    return true;
+  }
+  
+  // Check for suspicious name patterns
+  if (data.name && (/^[a-z]+\d+$/i.test(data.name) || data.name.length < 2)) {
+    console.log('Spam detected: suspicious name pattern');
+    return true;
+  }
+  
+  return false;
+}
+
 async function sendEmail(data, isError = false, errorDetails = null) {
   try {
     const subject = isError ? 
@@ -122,6 +171,18 @@ async function handleRequest(request) {
         status: 400,
         headers: {
           'Access-Control-Allow-Origin': '*'
+        }
+      })
+    }
+
+    // Check for spam
+    if (isSpamSubmission(data)) {
+      console.log('Spam submission detected, blocking silently');
+      // Return success to fool bots, but don't process or send emails
+      return new Response('Success', {
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Content-Type': 'text/plain'
         }
       })
     }
@@ -319,7 +380,7 @@ async function handleRequest(request) {
           }]
         },
         'Status': {
-          select: { name: '01. New Lead' }
+          select: { name: 'New Lead' }
         },
         'Source': {
           select: { name: 'Website Contact Form' }
