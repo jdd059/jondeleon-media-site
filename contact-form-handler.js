@@ -380,7 +380,7 @@ async function handleRequest(request) {
           }]
         },
         'Status': {
-          select: { name: 'New Lead' }
+          select: { name: '01. New Lead' }
         },
         'Source': {
           select: { name: 'Website Contact Form' }
