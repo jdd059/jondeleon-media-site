@@ -22,8 +22,8 @@ function isSpamSubmission(data) {
     }
   }
   
-  // Check for empty or nonsense messages
-if (!data.message || data.message.trim().length < 3) {
+  // Check for empty or very short messages
+  if (!data.message || data.message.length < 10) {
     console.log('Spam detected: message too short');
     return true;
   }
@@ -247,10 +247,10 @@ async function handleRequest(request) {
                 email: data.email
               },
               'Space': {
-                relation: [{ id: JON_DELEON_MEDIA_SPACE_ID }]  // Add Space relation
+                relation: [{ id: 'º Jon DeLeon Media' }]  // Add Space relation
               },
               '+ Biz Summary DB': {
-                relation: [{ id: STATS_PAGE_ID }]  // Add Biz Summary relation
+                relation: [{ id: 'Stats' }]  // Add Biz Summary relation
               }
             }
           })
@@ -312,10 +312,10 @@ async function handleRequest(request) {
                     title: [{ text: { content: data.company } }]
                   },
                   'Space': {
-                    relation: [{ id: 'º Jon DeLeon Media' }]  // Add Space relation
+                    relation: [{ id: JON_DELEON_MEDIA_SPACE_ID }]  // Add Space relation
                   },
                   '+ Biz Summary DB': {
-                    relation: [{ id: STATS_PAGE_ID }]  // Add Biz Summary relation
+                    relation: [{ id: 'Stats' }]  // Add Biz Summary relation
                   }
                 }
               })
@@ -410,14 +410,11 @@ async function handleRequest(request) {
           date: { 
             start: new Date(Date.now() + (4 * 60 * 60 * 1000)).toISOString() // 4 hours from now with time
           }
-        }
-      
-        '+ Biz Summary DB': {
-          relation: [{ id: STATS_PAGE_ID }]
         },
-        'Space': {
-          relation: [{ id: JON_DELEON_MEDIA_SPACE_ID }]
-    }};
+        '+ Biz Summary DB': {
+          relation: [{ id: 'Stats' }]  // Add Biz Summary relation
+        }
+      };
 
       // Add organization relation if we have one
       if (organizationId) {
