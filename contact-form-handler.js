@@ -22,8 +22,8 @@ function isSpamSubmission(data) {
     }
   }
   
-  // Check for empty or very short messages
-  if (!data.message || data.message.length < 10) {
+  // Check for empty or nonsense messages
+if (!data.message || data.message.trim().length < 3) {
     console.log('Spam detected: message too short');
     return true;
   }
