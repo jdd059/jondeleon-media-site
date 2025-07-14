@@ -4,14 +4,16 @@ addEventListener('fetch', event => {
 
 function isSpamSubmission(data) {
   const spamIndicators = [
-    // Random Gmail patterns (long random strings)
-    /^[a-z0-9]{10,}@gmail\.com$/i,
+    // Very long random Gmail patterns (20+ chars, likely generated)
+    /^[a-z0-9]{20,}@gmail\.com$/i,
+    // Obvious random patterns (letters followed by many numbers)
+    /^[a-z]{3,}[0-9]{8,}@gmail\.com$/i,
     // Common spam domains
     /@(tempmail|guerrillamail|10minutemail|mailinator|yopmail|throwaway)/i,
     // Obvious spam usernames
     /^(test|spam|admin|info|contact|support|sales|marketing)\d*@/i,
-    // All numbers username
-    /^\d+@/i
+    // All numbers username (6+ digits)
+    /^\d{6,}@/i
   ];
   
   // Check email patterns
