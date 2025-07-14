@@ -1083,8 +1083,12 @@ footer {
 }
 
  .privacy-container a {
-	color: #fcfcfc important;
-	text-decoration: underline !important;
+    color: #0066cc;
+    text-decoration: underline;
+}
+
+.privacy-container a:hover {
+    color: #004499;
 }
 
 @media (max-width: 480px) {
