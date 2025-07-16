@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Raleigh Audio Production | Jon DeLeon Media</title>
+  <meta name="description" content="Broadcast-quality audio production and podcast editing in Raleigh and the Triangle. Fast turnaround, agency-ready results." />
+  <link rel="stylesheet" href="/assets/css/styles.css" />
+</head>
+<body>
+  <header>
+        <nav class="nav"> 
+            <div class="nav-container">
+                <a href="#home" class="logo">
+                    <h1><span class="logo-icon"></span>Jon DeLeon Media</h1>
+                    <span>Fix Your Sound. Fast.</span>
+                </a>
+                <ul class="nav-menu">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+  <main>
+    <section id= "home" class="hero">
+      <div class="container">
+        <h1>Audio Production in Raleigh & the Triangle</h1>
+        <p class="hero-subtitle">Fix your sound, fast — without compromising quality. I help marketers, agencies, and podcasters meet tight deadlines with pro-level results.</p>
+        <div class="hero-cta">
+          <a href="#contact" class="btn-primary">Book a Call</a>
+          <a href="#services" class="btn-secondary">View Packages</a>
+        </div>
+        <p style="margin-top: 1.5rem; text-align: center; font-size: 0.95rem; font-style:oblique; color:#d5d2d2;">
+  Serving Raleigh and the Greater Triangle Area
+</p>
+
+
+      </div>
+    </section>
+
+    <section id="how-i-help" class="how-i-help">
+            <div class="container">
+                <h2>How I Help</h2>
+            <div class="section-divider"></div>
+            <div class="help-grid">
+            <div class="help-item">
+                <div class="help-icon">
+                    <img src="/assets/icons/life-buoy.svg" alt="Audio rescue icon">
+                </div>
+                <h3>Audio Rescue</h3>
+                <p>Fix recordings that aren't working and restore poor-quality audio to broadcast standards</p>
+            </div>
+            <div class="help-item">
+                <div class="help-icon">
+                    <img src="/assets/icons/cloud-upload.svg" alt="Platform delivery icon">
+                </div>
+                <h3>Platform-Ready Delivery</h3>
+                <p>Master audio for multi-platform distribution and technical specifications</p>
+            </div>
+            <div class="help-item">
+                <div class="help-icon">
+                    <img src="/assets/icons/users-round.svg" alt="Workflow coordination icon">
+                </div>
+                <h3>Workflow Coordination</h3>
+                <p>Handle technical logistics and project management so you can focus on strategy and content</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <section id="services" class="services">
+      <div class="container">
+        <h2>Popular Packages</h2>
+        <div class="section-divider"></div>
+
+        <div class="service-grid">
+          <div class="service-card">
+            <h3>Essential</h3>
+            <div class="price">$200</div>
+            <p class="service-subtitle">Simple podcasts, voiceovers, audio cleanup</p>
+            <ul>
+              <li>Audio restoration & noise reduction</li>
+              <li>Platform-ready delivery</li>
+              <li>2 rounds of revisions</li>
+            </ul>
+            <a href="#contact" class="btn">Get Started</a>
+          </div>
+
+          <div class="service-card featured">
+            <h3>Studio</h3>
+            <div class="price">$350</div>
+            <p class="service-subtitle">Branded content, video post, remote sessions</p>
+            <ul>
+              <li>Sound design & music sourcing</li>
+              <li>Remote recording & video sync</li>
+              <li>2 rounds of revisions</li>
+            </ul>
+            <a href="#contact" class="btn">Book a Call</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="contact">
+            <div class="container">
+                <h2>Ready to Get Started?</h2>
+                <div class="section-divider"></div>
+                <p class="section-subtitle">48-hour standard delivery • 24-hour rush available</p>
+                
+                <div class="contact-container">
+                    <div class="contact-info">
+                        <h3>Get in Touch</h3>
+                        <p><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/jddeleon" target="_blank" rel="noopener noreferrer">linkedin.com/in/jddeleon</a></p>
+                        <p><strong>Location:</strong> Based in Raleigh, NC • Serving the Greater Triangle Area</p>
+                        <p><strong>Response Time:</strong> Within 4 hours during business days</p>
+                        <a href="https://calendar.notion.so/meet/jonathandeleon/sp32h4o5d" 
+                            class="btn-secondary book-call-btn" 
+                            rel="noopener noreferrer"
+                            onclick="gtag('event', 'book_call_click', {
+                                'event_category': 'Contact',
+                                'event_label': 'Book Discovery Call Button',
+                                'value': 1
+                                });" var link = this; setTimeout(function(){window.open(link.href, '_blank');}, 200); return false;">
+                            Book a Call
+                        </a>
+                    </div>
+                    
+                    <form class="contact-form" action="https://contact-form-handler.jondeleonmedia.workers.dev" method="POST">
+                        <div class="form-row">
+                            <input type="text" name="name" placeholder="Your Name" required>
+                            <input type="text" name="company" placeholder="Company Name">
+                        </div>
+                        <input type="email" name="email" placeholder="Email Address" required>
+                        <select name="service" required>
+                            <option value="">Select Service Package</option>
+                            <option value="essential">Essential ($200)</option>
+                            <option value="studio">Studio ($350)</option>
+                            <option value="producer">Producer (Starts at $750)</option>
+                            <option value="custom">Custom Project</option>
+                        </select>
+                        <textarea name="message" placeholder="Project details, timeline, and any specific requirements..." rows="6" required></textarea>
+                        <button type="submit" class="btn-primary">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+  </main>
+
+  <footer>
+    <div class="privacy-container">
+      <p>&copy; 2025 Jon DeLeon Media. Based in Raleigh, NC.</p>
+      <a href="/privacy.html">Privacy Policy</a>
+    </div>
+  </footer>
+
+  <script src="/assets/js/script.js"></script>
+</body>
+</html>
