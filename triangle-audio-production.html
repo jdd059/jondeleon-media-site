@@ -138,7 +138,6 @@
                             <option value="">Select Service Package</option>
                             <option value="essential">Essential ($200)</option>
                             <option value="studio">Studio ($350)</option>
-                            <option value="producer">Producer (Starts at $750)</option>
                             <option value="custom">Custom Project</option>
                         </select>
                         <textarea name="message" placeholder="Project details, timeline, and any specific requirements..." rows="6" required></textarea>
@@ -151,7 +150,12 @@
 
   <footer>
     <div class="privacy-container">
-      <p>&copy; 2025 Jon DeLeon Media. Based in Raleigh, NC.</p>
+      <p>&copy; <span id="current-year"></span> Jon DeLeon Media. Audio production for marketing agencies and content teams.</p>
+
+        <script>
+            document.getElementById("current-year").textContent = new Date().getFullYear();
+        </script>
+
       <a href="/privacy.html">Privacy Policy</a>
     </div>
   </footer>

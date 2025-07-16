@@ -331,7 +331,11 @@
 
     <footer>
         <div class="privacy-container">
-            <p>&copy; 2025 Jon DeLeon Media. Audio production for marketing agencies and content teams.</p>
+            <p>&copy; <span id="current-year"></span> Jon DeLeon Media. Audio production for marketing agencies and content teams.</p>
+                <script>
+                    document.getElementById("current-year").textContent = new Date().getFullYear();
+                </script>
+
             <a href="privacy.html">Privacy Policy</a>
         </div>
     </footer>
